@@ -7,6 +7,14 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    email: {
+        type: String,
+        require: true
+    },
+    password: {
+        type: String,
+        require: true
+    },
     subject: {
         type: String,
         require: true
@@ -15,6 +23,17 @@ const teacherSchema = new mongoose.Schema({
         name: String
     }]
 })
+
+teacherSchema.pre('save', async function(next) {
+    if(this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 8)
+    }
+    next()
+})
+teacherSchema.methods.generateAuthToken = async function() {
+    const token = jwt.sign({_id: this._id}, 'secret')
+    return token
+}
 
 const Teacher = mongoose.model('Teacher', teacherSchema)
 
