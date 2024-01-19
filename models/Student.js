@@ -15,6 +15,14 @@ const studentSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    teachers: [{
+        name: String,
+        subject: String
+    }],
+    grade: {
+        type: Number,
+        require: true
+    },
     assignments: [{
         name: String,
         subject: String

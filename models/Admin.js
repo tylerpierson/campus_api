@@ -19,6 +19,10 @@ const adminSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    title: {
+        type: String,
+        require: true
+    },
     teachers: [{
         name: String,
         subject: String

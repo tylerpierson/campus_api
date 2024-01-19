@@ -15,6 +15,10 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    grade: {
+        type: Number,
+        require: true
+    },
     subject: {
         type: String,
         require: true
