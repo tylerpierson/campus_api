@@ -6,6 +6,6 @@ const PORT = process.env.PORT || 3000
 mongoose.connect(process.env.MONGO_URI)
 mongoose.connection.once('open', () => console.log('Mongo is ACTIVE'))
 
-app.list(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Port is running @ ${PORT}`)
 })
