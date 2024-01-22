@@ -17,7 +17,18 @@ exports.auth = async (req, res, next) => {
   }
 }
 
-exports.createUser = async (req, res) => {
+// Index
+exports.index = async function index (req, res) {
+    try {
+        const users = await User.find({})
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
+// Create
+exports.create = async (req, res) => {
   try{
     const user = new User(req.body)
     await user.save()
@@ -28,7 +39,8 @@ exports.createUser = async (req, res) => {
   }
 }
 
-exports.loginUser = async (req, res) => {
+// Login
+exports.login = async (req, res) => {
   try{
     const user = await User.findOne({ email: req.body.email })
     if (!user || !await bcrypt.compare(req.body.password, user.password)) {
@@ -42,7 +54,8 @@ exports.loginUser = async (req, res) => {
   }
 }
 
-exports.updateUser = async (req, res) => {
+// Update
+exports.update = async (req, res) => {
   try{
     const updates = Object.keys(req.body)
     const user = await User.findOne({ _id: req.params.id })
@@ -55,11 +68,23 @@ exports.updateUser = async (req, res) => {
   
 }
 
-exports.deleteUser = async (req, res) => {
+
+// Delete
+exports.delete = async (req, res) => {
   try{
     await req.user.deleteOne()
     res.json({ message: 'User deleted' })
   }catch(error){
     res.status(400).json({message: error.message})
   }
+}
+
+// Show
+exports.show = async function show (req, res) {
+    try {
+        const foundUser = await User.findOne({ _id: req.params.id })
+        res.status(200).json(foundUser)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
 }
