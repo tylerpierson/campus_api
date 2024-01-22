@@ -5,43 +5,58 @@ const jwt = require('jsonwebtoken')
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        require: true
+        required: true
     },
     email: {
         type: String,
-        require: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,
-        require: true
+        required: true
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'teacher', 'student'],
+        default: 'teacher'
     },
     campus: {
         type: String,
-        require: true
+        required: true
     },
-    title: {
-        type: Number,
-        require: true
-    },
-    teachers: [{
-        name: String
-    }],
     grade: {
         type: Number,
-        require: true
+        required: true,
     },
     subjects: [{
         type: String,
-        require: true
+        required: true
     }],
-    students: [{
-        name: String
+    teachers: [{
+        name: String,
+        grade: Number,
+        subjects: [String],
+        students: [String]
     }],
     assignments: [{
         type: String,
-        require: true
+        required: true
     }],
-})
+    completedAssignments: [{
+        assignment: String,
+        completed: {
+            type: Boolean,
+            default: false
+        }
+    }],
+    students: [{
+        name: String,
+        grade: Number,
+        teachers: [String],
+        subjects: [String]
+    }]
+});
 
 userSchema.pre('save', async function(next) {
     if(this.isModified('password')) {

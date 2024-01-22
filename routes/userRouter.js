@@ -15,7 +15,7 @@ router.post('/login', userControllers.login)
 router.put('/:id', userControllers.update)
 
 // Destroy
-router.delete('/:id', userControllers.delete)
+router.delete('/:id', userControllers.destroy)
 
 // Show
 router.get('/:id', userControllers.show)

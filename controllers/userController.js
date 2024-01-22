@@ -69,22 +69,25 @@ exports.update = async (req, res) => {
 }
 
 
-// Delete
-exports.delete = async (req, res) => {
-  try{
-    await req.user.deleteOne()
-    res.json({ message: 'User deleted' })
-  }catch(error){
-    res.status(400).json({message: error.message})
-  }
+// Destroy
+exports.destroy = async function destroy (req, res) {
+    try {
+        const deletedUser = await User.findOneAndDelete({ _id: req.params.id })
+        res.status(200).json({ message: `The user with the ID of ${deletedUser._id} was deleted from the MongoDB database. No further action necessary.`})
+    } catch (error) {
+        res.status(400).json({ message: error.message }) 
+    }
 }
 
 // Show
-exports.show = async function show (req, res) {
+exports.show = async function show(req, res) {
     try {
-        const foundUser = await User.findOne({ _id: req.params.id })
-        res.status(200).json(foundUser)
+        const foundUser = await User.findOne({ _id: req.params.id });
+        if (!foundUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json(foundUser);
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).json({ message: error.message });
     }
 }
