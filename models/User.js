@@ -17,12 +17,12 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     role: {
-        type: String,
+        title: String,
         enum: ['admin', 'teacher', 'student'],
         default: 'admin'
     },
     campus: {
-        type: String,
+        name: String,
         required: true
     },
     grade: {
@@ -34,27 +34,24 @@ const userSchema = new mongoose.Schema({
         required: true
     }],
     teachers: [{
-        name: String,
-        grade: Number,
-        subjects: [String],
-        students: [String]
+        name: {type: String, required: true},
+        grade: {type: Number, required: true},
+        subjects: [{type: String}],
+        students: [{type: String}]
     }],
     assignments: [{
         type: String,
-        required: true
-    }],
-    completedAssignments: [{
-        assignment: String,
+        required: true,
         completed: {
             type: Boolean,
             default: false
         }
     }],
     students: [{
-        name: String,
-        grade: Number,
-        teachers: [String],
-        subjects: [String]
+        name: {type: String, required: true},
+        grade: {type: Number, required: true},
+        teachers: [{name: String, required: true}],
+        subjects: [{type: String, required: true}]
     }]
 });
 
